@@ -1,7 +1,7 @@
 // fill at launch — everything on the page reads from here
-window.BATCH_CFG = {
-  NAME:   "BatchPad",
-  TICKER: "BATCH",
+window.PC_CFG = {
+  NAME:   "pcombinator",
+  TICKER: "PCOMB",
   CA:     "",
   CHAIN:  "solana",
   PAD:    "pumpfun",        // pumpfun | stonkfun

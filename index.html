@@ -3,9 +3,9 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>BatchPad — survive the batch, get funded</title>
+<title>pcombinator — survive the batch, get funded</title>
 <meta name="description" content="Every coin launched here is in the batch. Hold the floor for seven days and the pad spends its whole fee pot buying you. Everything else gets cut.">
-<meta property="og:title" content="BatchPad — survive the batch, get funded">
+<meta property="og:title" content="pcombinator — survive the batch, get funded">
 <meta property="og:description" content="Seven days. Hold the floor or get cut.">
 <meta property="og:image" content="og.jpg">
 <meta name="twitter:card" content="summary_large_image">
@@ -17,13 +17,13 @@
 <style>
 :root{
   --bg:#06070a; --panel:#0c0e14; --panel2:#11141c; --line:#1d2130;
-  --vio:#7c5cff; --vio2:#a68cff; --vioDim:#2a2350;
+  --grn:#15b866; --grn2:#5fe0a0; --grnDim:#123a25;
   --ink:#eef0f6; --dim:#848ba0; --dim2:#575d70;
   --red:#ff5f5f; --amber:#f2b34a; --ok:#6ee7a0;
   --mono:'IBM Plex Mono',ui-monospace,monospace;
 }
 *{box-sizing:border-box}
-html{scroll-behavior:smooth;scroll-padding-top:76px;background:var(--bg)}
+html{scroll-behagrnr:smooth;scroll-padding-top:76px;background:var(--bg)}
 body{margin:0;background:var(--bg);color:var(--ink);
   font-family:'Space Grotesk',system-ui,sans-serif;-webkit-font-smoothing:antialiased;overflow-x:hidden}
 a{color:inherit}
@@ -31,7 +31,7 @@ img{max-width:100%;display:block}
 .wrap{width:min(1180px,calc(100% - 44px));margin:0 auto}
 
 #glow{position:fixed;inset:0;z-index:0;pointer-events:none;
-  background:radial-gradient(ellipse 70% 42% at 68% -6%,rgba(124,92,255,.20),transparent 70%)}
+  background:radial-gradient(ellipse 70% 42% at 68% -6%,rgba(21,184,102,.20),transparent 70%)}
 .shell{position:relative;z-index:1}
 
 /* ---------- nav ---------- */
@@ -44,14 +44,14 @@ img{max-width:100%;display:block}
 #nav .sp{flex:1}
 #nav a.l{font-size:13.5px;color:var(--dim);text-decoration:none}
 #nav a.l:hover{color:var(--ink)}
-.pill{display:inline-block;background:var(--vio);color:#fff;text-decoration:none;font-weight:600;
+.pill{display:inline-block;background:var(--grn);color:#fff;text-decoration:none;font-weight:600;
   font-size:13.5px;padding:9px 18px;border-radius:7px;white-space:nowrap}
 .pill.ghost{background:transparent;color:var(--ink);border:1px solid var(--line)}
 .pill:hover{filter:brightness(1.08)}
 
 /* ---------- type ---------- */
 .kick{font-family:var(--mono);font-size:11.5px;font-weight:600;letter-spacing:.22em;
-  text-transform:uppercase;color:var(--vio2)}
+  text-transform:uppercase;color:var(--grn2)}
 h1{font-size:clamp(36px,4.8vw,62px);line-height:1.02;letter-spacing:-.04em;font-weight:700;margin:16px 0 0}
 h2{font-size:clamp(27px,3.2vw,40px);line-height:1.07;letter-spacing:-.035em;font-weight:700;margin:14px 0 0}
 h3{font-size:16.5px;font-weight:600;margin:0 0 7px;letter-spacing:-.015em}
@@ -62,20 +62,28 @@ section{padding:92px 0;border-top:1px solid var(--line)}
 /* ---------- hero ---------- */
 #hero{padding:72px 0 84px;border-top:0}
 #hero .row{display:grid;grid-template-columns:1.2fr .8fr;gap:40px;align-items:center}
-#seal img{width:min(360px,100%);filter:drop-shadow(0 0 60px rgba(124,92,255,.35));
+#seal{position:relative;display:flex;justify-content:center}
+#seal:before{content:'';position:absolute;left:50%;top:50%;width:min(400px,78vw);height:min(400px,78vw);
+  transform:translate(-50%,-50%);border-radius:50%;pointer-events:none;
+  background:radial-gradient(circle,rgba(21,184,102,.30),transparent 68%);
+  animation:aura 6s ease-in-out infinite}
+#seal img{position:relative;width:min(300px,78%);
+  filter:drop-shadow(0 26px 60px rgba(0,0,0,.6));
   animation:breathe 6s ease-in-out infinite}
-@keyframes breathe{0%,100%{transform:scale(1) rotate(0)}50%{transform:scale(1.04) rotate(2deg)}}
+@keyframes breathe{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+@keyframes aura{0%,100%{opacity:.75;transform:translate(-50%,-50%) scale(1)}
+  50%{opacity:1;transform:translate(-50%,-50%) scale(1.07)}}
 .tagpill{display:inline-flex;align-items:center;gap:9px;font-family:var(--mono);font-size:11.5px;
-  border:1px solid var(--vioDim);border-radius:999px;padding:6px 14px;color:var(--vio2);
-  background:rgba(124,92,255,.07)}
-.dot{width:6px;height:6px;border-radius:50%;background:var(--vio);box-shadow:0 0 10px var(--vio)}
+  border:1px solid var(--grnDim);border-radius:999px;padding:6px 14px;color:var(--grn2);
+  background:rgba(21,184,102,.07)}
+.dot{width:6px;height:6px;border-radius:50%;background:var(--grn);box-shadow:0 0 10px var(--grn)}
 .hbtns{display:flex;gap:11px;margin-top:28px;flex-wrap:wrap}
 
 .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);
   border:1px solid var(--line);border-radius:10px;overflow:hidden;margin-top:46px}
 .stats div{background:var(--bg);padding:20px}
 .stats b{display:block;font-family:var(--mono);font-size:24px;font-weight:500;letter-spacing:-.02em}
-.stats b.v{color:var(--vio2)}
+.stats b.v{color:var(--grn2)}
 .stats i{display:block;font-style:normal;font-family:var(--mono);font-size:10.5px;letter-spacing:.13em;
   text-transform:uppercase;color:var(--dim2);margin-top:7px}
 
@@ -98,18 +106,18 @@ section{padding:92px 0;border-top:1px solid var(--line)}
 .brow .num.bad{color:var(--red)}
 .days{display:flex;gap:4px}
 .days i{flex:1;height:9px;background:#161a24;border-radius:2px}
-.days i.on{background:var(--vio);box-shadow:0 0 8px rgba(124,92,255,.5)}
+.days i.on{background:var(--grn);box-shadow:0 0 8px rgba(21,184,102,.5)}
 .days i.dead{background:#3a1f28}
 .st{font-family:var(--mono);font-size:10.5px;letter-spacing:.09em;text-transform:uppercase;text-align:center;
   padding:6px 8px;border-radius:999px;border:1px solid var(--line);color:var(--dim);white-space:nowrap}
-.st.run{color:var(--vio2);border-color:var(--vioDim);background:rgba(124,92,255,.08)}
+.st.run{color:var(--grn2);border-color:var(--grnDim);background:rgba(21,184,102,.08)}
 .st.risk{color:var(--amber);border-color:#4a3a1a}
 .st.cut{color:var(--red);border-color:#4a2222}
-.st.acc{color:#06070a;background:var(--vio);border-color:var(--vio);font-weight:600}
+.st.acc{color:#06070a;background:var(--grn);border-color:var(--grn);font-weight:600}
 .brow.dying{background:rgba(255,95,95,.07)}
 .brow.gone{opacity:.42}
 .brow.hit{animation:hit .8s ease-out}
-@keyframes hit{0%{background:rgba(124,92,255,.22)}100%{background:transparent}}
+@keyframes hit{0%{background:rgba(21,184,102,.22)}100%{background:transparent}}
 
 #cutpile{margin-top:18px;border:1px dashed var(--line);border-radius:10px;padding:16px 20px;
   font-family:var(--mono);font-size:12.5px;color:var(--dim2);line-height:1.9}
@@ -118,12 +126,13 @@ section{padding:92px 0;border-top:1px solid var(--line)}
 #cutpile .none{color:var(--dim2)}
 
 /* accepted stamp */
-#stamp{position:fixed;left:50%;top:50%;z-index:90;width:300px;transform:translate(-50%,-50%) scale(2.1);
+#stamp{position:fixed;left:50%;top:50%;z-index:90;width:190px;transform:translate(-50%,-50%) scale(1);
   opacity:0;pointer-events:none}
+#stamp img{width:100%;box-shadow:0 30px 80px rgba(0,0,0,.7)}
 #stamp.on{animation:slam .95s cubic-bezier(.15,1.5,.4,1) forwards}
-#stamp .lbl{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%) rotate(-9deg);
-  font-family:var(--mono);font-weight:600;font-size:22px;letter-spacing:.16em;color:#fff;
-  text-shadow:0 2px 20px rgba(0,0,0,.8);white-space:nowrap}
+#stamp .lbl{position:absolute;left:50%;top:calc(100% + 18px);transform:translate(-50%,0);
+  font-family:var(--mono);font-weight:600;font-size:20px;letter-spacing:.2em;color:#fff;
+  text-shadow:0 2px 20px rgba(0,0,0,.9);white-space:nowrap}
 @keyframes slam{0%{opacity:0;transform:translate(-50%,-50%) scale(2.1) rotate(-14deg)}
   22%{opacity:1;transform:translate(-50%,-50%) scale(1) rotate(-9deg)}
   76%{opacity:1;transform:translate(-50%,-50%) scale(1) rotate(-9deg)}
@@ -137,9 +146,9 @@ label{display:block;font-family:var(--mono);font-size:10.5px;letter-spacing:.13e
 .f{margin-bottom:20px}
 input{width:100%;background:var(--bg);border:1px solid var(--line);border-radius:7px;color:var(--ink);
   font-family:var(--mono);font-size:15px;padding:13px 14px;outline:0}
-input:focus{border-color:var(--vio)}
+input:focus{border-color:var(--grn)}
 .hint{font-family:var(--mono);font-size:11px;color:var(--dim2);margin-top:7px}
-.big{width:100%;background:var(--vio);color:#fff;border:0;border-radius:8px;
+.big{width:100%;background:var(--grn);color:#fff;border:0;border-radius:8px;
   font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:15.5px;padding:15px;cursor:pointer}
 .big:disabled{background:var(--panel2);color:var(--dim2);cursor:not-allowed}
 .big.rel{background:transparent;color:var(--ink);border:1px solid var(--line)}
@@ -149,22 +158,22 @@ input:focus{border-color:var(--vio)}
 .tk-h{padding:16px 22px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;
   align-items:center;font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;
   color:var(--dim2)}
-.tk-h b{color:var(--vio2);font-weight:500}
+.tk-h b{color:var(--grn2);font-weight:500}
 .tk-top{padding:22px;border-bottom:1px solid var(--line)}
 .tk-top .bn{font-size:30px;font-weight:700;letter-spacing:-.03em;line-height:1}
-.tk-top .sub{font-family:var(--mono);font-size:12.5px;color:var(--vio2);margin-top:8px}
+.tk-top .sub{font-family:var(--mono);font-size:12.5px;color:var(--grn2);margin-top:8px}
 .kv{display:flex;justify-content:space-between;gap:16px;padding:12px 22px;border-bottom:1px solid var(--line);
   font-size:14px}
 .kv span{color:var(--dim)}
 .kv b{font-family:var(--mono);font-weight:500;text-align:right}
-.kv b.v{color:var(--vio2)}
+.kv b.v{color:var(--grn2)}
 #log{font-family:var(--mono);font-size:11.5px;line-height:1.9;color:var(--dim);padding:16px 22px;
   border-top:1px solid var(--line);min-height:42px}
-#log .ok{color:var(--vio2)}
+#log .ok{color:var(--grn2)}
 
 /* ---------- bar / cheque ---------- */
 .bars{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-top:38px}
-.barc{background:var(--panel);border:1px solid var(--line);border-top:2px solid var(--vio);
+.barc{background:var(--panel);border:1px solid var(--line);border-top:2px solid var(--grn);
   border-radius:0 0 10px 10px;padding:22px}
 .barc .n{font-family:var(--mono);font-size:11px;letter-spacing:.14em;color:var(--dim2);margin-bottom:12px}
 .barc .big-n{font-family:var(--mono);font-size:26px;font-weight:500;letter-spacing:-.02em;margin-bottom:8px}
@@ -176,7 +185,7 @@ input:focus{border-color:var(--vio)}
 .cheque .lab{font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;
   color:var(--dim2);margin-bottom:12px}
 .cheque .amt{font-family:var(--mono);font-size:clamp(30px,4vw,46px);font-weight:500;letter-spacing:-.03em}
-.cheque .amt.v{color:var(--vio2)}
+.cheque .amt.v{color:var(--grn2)}
 .cheque p{color:var(--dim);font-size:13.5px;margin:14px 0 0}
 
 table.rules{width:100%;border-collapse:collapse;margin-top:34px;border:1px solid var(--line);border-radius:10px;
@@ -186,14 +195,14 @@ table.rules tr:last-child td{border-bottom:0}
 table.rules td:first-child{width:38%;color:var(--dim);font-family:var(--mono);font-size:12.5px;
   letter-spacing:.06em;text-transform:uppercase;background:var(--panel)}
 
-/* ---------- $BATCH ---------- */
+/* ---------- $PCOMB ---------- */
 .splitbar{display:flex;height:44px;border:1px solid var(--line);border-radius:8px;overflow:hidden;margin-top:26px}
 .splitbar div{display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:11.5px}
-.splitbar .a{background:var(--vio);color:#fff}
+.splitbar .a{background:var(--grn);color:#fff}
 .splitbar .b{background:var(--panel);color:var(--dim)}
 #ca{display:flex;align-items:center;gap:12px;background:var(--panel);border:1px solid var(--line);
   border-radius:8px;padding:14px 18px;margin-top:26px;flex-wrap:wrap}
-#ca code{font-family:var(--mono);font-size:13px;color:var(--vio2);word-break:break-all;flex:1;min-width:180px}
+#ca code{font-family:var(--mono);font-size:13px;color:var(--grn2);word-break:break-all;flex:1;min-width:180px}
 #ca button{background:transparent;border:1px solid var(--line);border-radius:6px;color:var(--ink);
   font-family:var(--mono);font-size:11.5px;letter-spacing:.1em;padding:9px 14px;cursor:pointer;
   text-transform:uppercase}
@@ -205,7 +214,7 @@ table.rules td:first-child{width:38%;color:var(--dim);font-family:var(--mono);fo
   font-family:'Space Grotesk',sans-serif;font-size:15.5px;font-weight:500;text-align:left;padding:18px 22px;
   cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:16px}
 .q:last-of-type{border-bottom:0}
-.q em{font-style:normal;font-family:var(--mono);font-size:16px;color:var(--vio2);flex:none}
+.q em{font-style:normal;font-family:var(--mono);font-size:16px;color:var(--grn2);flex:none}
 .a{display:none;padding:0 22px 20px;color:var(--dim);font-size:14.5px;line-height:1.7;background:var(--panel);
   border-bottom:1px solid var(--line)}
 .a.on{display:block}
@@ -215,7 +224,7 @@ footer .fr{display:flex;justify-content:space-between;gap:24px;flex-wrap:wrap;al
 footer a{color:var(--dim);text-decoration:none}
 
 #toast{position:fixed;left:50%;bottom:28px;transform:translateX(-50%) translateY(14px);z-index:95;
-  background:var(--vio);color:#fff;font-size:14px;font-weight:500;padding:12px 20px;border-radius:999px;
+  background:var(--grn);color:#fff;font-size:14px;font-weight:500;padding:12px 20px;border-radius:999px;
   opacity:0;transition:.22s;pointer-events:none;white-space:nowrap}
 #toast.on{opacity:1;transform:translateX(-50%) translateY(0)}
 
@@ -245,6 +254,11 @@ footer a{color:var(--dim);text-decoration:none}
   table.rules td{display:block;width:100%}
   table.rules td:first-child{width:100%;border-bottom:0}
   #clock{text-align:left}
+  #nav a.l{display:none}
+  .pill{font-size:12.5px;padding:8px 13px}
+  .brand{font-size:16px}
+  #stamp{width:150px}
+  #stamp .lbl{font-size:17px}
 }
 </style>
 </head>
@@ -253,30 +267,30 @@ footer a{color:var(--dim);text-decoration:none}
 <div class="shell">
 
 <nav id="nav"><div class="wrap">
-  <a class="brand" href="#top"><img src="mark.png" alt=""><span>BatchPad</span></a>
+  <a class="brand" href="#top"><img src="mark.png" alt=""><span>pcombinator</span></a>
   <span class="sp"></span>
   <a class="l" href="#batch">The batch</a>
   <a class="l" href="#launch">Launch</a>
   <a class="l" href="#bar">The bar</a>
   <a class="l" href="#cheque">The cheque</a>
   <a class="pill ghost x-link" href="#" target="_blank" rel="noopener">X</a>
-  <a class="pill buy-link" href="#" target="_blank" rel="noopener">Buy $<span class="tk">BATCH</span></a>
+  <a class="pill buy-link" href="#" target="_blank" rel="noopener">Buy $<span class="tk">PCOMB</span></a>
 </div></nav>
 
 <header id="hero" class="wrap"><div class="row">
   <div>
     <span class="tagpill"><i class="dot"></i> <span id="pill-txt">Batch #14 · closes in —</span></span>
     <h1>Survive seven days.<br>We buy your coin.</h1>
-    <p class="lead">Every coin launched on BatchPad is in the current batch from the second it goes live.
+    <p class="lead">Every coin launched on pcombinator is in the current batch from the second it goes live.
       No application, no pitch, no interview. Hold the floor for the whole week and you're
-      <b style="color:var(--vio2);font-weight:500">accepted</b> — the pad spends its entire fee pot buying you
+      <b style="color:var(--grn2);font-weight:500">accepted</b> — the pad spends its entire fee pot buying you
       on the open market and locks it for <span class="lock-n">90</span> days. Miss any of it and you're cut.</p>
     <div class="hbtns">
       <a class="pill" href="#launch">Enter the batch</a>
       <a class="pill ghost" href="#bar">See the bar</a>
     </div>
   </div>
-  <div id="seal"><img src="mark.png" alt="BatchPad"></div>
+  <div id="seal"><img src="mark.png" alt="pcombinator"></div>
 </div>
 
 <div class="stats">
@@ -370,7 +384,7 @@ footer a{color:var(--dim);text-decoration:none}
 <section id="cheque"><div class="wrap">
   <span class="kick">04 — The cheque</span>
   <h2>Everything the pad earned goes back in.</h2>
-  <p class="lead">BatchPad keeps the creator fees from every coin launched this week. On Sunday at 00:00 UTC
+  <p class="lead">pcombinator keeps the creator fees from every coin launched this week. On Sunday at 00:00 UTC
     the batch closes, the survivors are counted, and <span class="split-n">80%</span> of the pot is spent buying
     them on the open market. The buys lock for <span class="lock-n">90</span> days, same as everyone else's.</p>
 
@@ -404,20 +418,20 @@ footer a{color:var(--dim);text-decoration:none}
 </div></section>
 
 <section id="cow"><div class="wrap">
-  <span class="kick">06 — $<span class="tk">BATCH</span></span>
+  <span class="kick">06 — $<span class="tk">PCOMB</span></span>
   <h2>The pad's own coin.</h2>
-  <p class="lead">$<span class="tk">BATCH</span> never enters a batch and never gets a cheque. It takes the
+  <p class="lead">$<span class="tk">PCOMB</span> never enters a batch and never gets a cheque. It takes the
     other <span class="rest-n">20%</span> — the share that does not go into the survivors — and that buys
-    $<span class="tk">BATCH</span> back.</p>
+    $<span class="tk">PCOMB</span> back.</p>
 
   <div class="splitbar">
     <div class="a" id="bar-a">80% — into the accepted coins</div>
-    <div class="b" id="bar-b">20% — buys $BATCH</div>
+    <div class="b" id="bar-b">20% — buys $PCOMB</div>
   </div>
 
   <div id="ca"><code id="ca-t">CA — dropping at launch</code><button id="cp">Copy</button></div>
   <div class="cbtns">
-    <a class="pill buy-link" href="#" target="_blank" rel="noopener">Buy $<span class="tk">BATCH</span></a>
+    <a class="pill buy-link" href="#" target="_blank" rel="noopener">Buy $<span class="tk">PCOMB</span></a>
     <a class="pill ghost chart-link" href="#" target="_blank" rel="noopener">Chart</a>
     <a class="pill ghost x-link" href="#" target="_blank" rel="noopener">X</a>
   </div>
@@ -445,13 +459,13 @@ footer a{color:var(--dim);text-decoration:none}
     <button class="q"><span>Can a cut coin try again next batch?</span><em>+</em></button>
     <div class="a">No. One batch per coin, ever. You get the seven days you get.</div>
 
-    <button class="q"><span>Does holding $<span class="tk">BATCH</span> get me in?</span><em>+</em></button>
+    <button class="q"><span>Does holding $<span class="tk">PCOMB</span> get me in?</span><em>+</em></button>
     <div class="a">Not one inch. It cannot buy a place, an extension or a soft check.</div>
   </div>
 </div></section>
 
 <footer><div class="wrap fr">
-  <div><div style="color:var(--ink);font-weight:600;margin-bottom:8px">BatchPad</div>
+  <div><div style="color:var(--ink);font-weight:600;margin-bottom:8px">pcombinator</div>
     Survive the batch. Get funded.</div>
   <div><a class="x-link" href="#" target="_blank" rel="noopener">X</a></div>
 </div></footer>
@@ -463,8 +477,8 @@ footer a{color:var(--dim);text-decoration:none}
 <script src="config.js"></script>
 <script>
 (function(){
-var C = window.BATCH_CFG || {};
-var TK = C.TICKER || 'BATCH', CA = (C.CA||'').trim();
+var C = window.PC_CFG || {};
+var TK = C.TICKER || 'PCOMB', CA = (C.CA||'').trim();
 var BN = +C.BATCH_NO || 14, DAYS = +C.DAYS || 7;
 var FLOOR = +C.FLOOR || 50000, MINVOL = +C.MIN_VOL || 25000, MINHOLD = +C.MIN_HOLD || 150;
 var LOCK = +C.LOCK || 90, POT = +C.POT || 38400, SPLIT = +C.SPLIT || 80;
