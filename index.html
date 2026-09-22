@@ -1,0 +1,695 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>BatchPad — survive the batch, get funded</title>
+<meta name="description" content="Every coin launched here is in the batch. Hold the floor for seven days and the pad spends its whole fee pot buying you. Everything else gets cut.">
+<meta property="og:title" content="BatchPad — survive the batch, get funded">
+<meta property="og:description" content="Seven days. Hold the floor or get cut.">
+<meta property="og:image" content="og.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="favicon.ico">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#06070a; --panel:#0c0e14; --panel2:#11141c; --line:#1d2130;
+  --vio:#7c5cff; --vio2:#a68cff; --vioDim:#2a2350;
+  --ink:#eef0f6; --dim:#848ba0; --dim2:#575d70;
+  --red:#ff5f5f; --amber:#f2b34a; --ok:#6ee7a0;
+  --mono:'IBM Plex Mono',ui-monospace,monospace;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:76px;background:var(--bg)}
+body{margin:0;background:var(--bg);color:var(--ink);
+  font-family:'Space Grotesk',system-ui,sans-serif;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+a{color:inherit}
+img{max-width:100%;display:block}
+.wrap{width:min(1180px,calc(100% - 44px));margin:0 auto}
+
+#glow{position:fixed;inset:0;z-index:0;pointer-events:none;
+  background:radial-gradient(ellipse 70% 42% at 68% -6%,rgba(124,92,255,.20),transparent 70%)}
+.shell{position:relative;z-index:1}
+
+/* ---------- nav ---------- */
+#nav{position:sticky;top:0;z-index:50;background:rgba(6,7,10,.84);backdrop-filter:blur(14px);
+  border-bottom:1px solid var(--line)}
+#nav .wrap{display:flex;align-items:center;gap:26px;height:68px}
+.brand{text-decoration:none;display:flex;align-items:center;gap:10px;font-weight:700;font-size:17.5px;
+  letter-spacing:-.02em}
+.brand img{width:30px;height:30px;object-fit:contain}
+#nav .sp{flex:1}
+#nav a.l{font-size:13.5px;color:var(--dim);text-decoration:none}
+#nav a.l:hover{color:var(--ink)}
+.pill{display:inline-block;background:var(--vio);color:#fff;text-decoration:none;font-weight:600;
+  font-size:13.5px;padding:9px 18px;border-radius:7px;white-space:nowrap}
+.pill.ghost{background:transparent;color:var(--ink);border:1px solid var(--line)}
+.pill:hover{filter:brightness(1.08)}
+
+/* ---------- type ---------- */
+.kick{font-family:var(--mono);font-size:11.5px;font-weight:600;letter-spacing:.22em;
+  text-transform:uppercase;color:var(--vio2)}
+h1{font-size:clamp(36px,4.8vw,62px);line-height:1.02;letter-spacing:-.04em;font-weight:700;margin:16px 0 0}
+h2{font-size:clamp(27px,3.2vw,40px);line-height:1.07;letter-spacing:-.035em;font-weight:700;margin:14px 0 0}
+h3{font-size:16.5px;font-weight:600;margin:0 0 7px;letter-spacing:-.015em}
+.lead b{text-decoration:none}
+.lead{color:var(--dim);font-size:clamp(15px,1.25vw,17px);line-height:1.62;max-width:62ch;margin:18px 0 0}
+section{padding:92px 0;border-top:1px solid var(--line)}
+
+/* ---------- hero ---------- */
+#hero{padding:72px 0 84px;border-top:0}
+#hero .row{display:grid;grid-template-columns:1.2fr .8fr;gap:40px;align-items:center}
+#seal img{width:min(360px,100%);filter:drop-shadow(0 0 60px rgba(124,92,255,.35));
+  animation:breathe 6s ease-in-out infinite}
+@keyframes breathe{0%,100%{transform:scale(1) rotate(0)}50%{transform:scale(1.04) rotate(2deg)}}
+.tagpill{display:inline-flex;align-items:center;gap:9px;font-family:var(--mono);font-size:11.5px;
+  border:1px solid var(--vioDim);border-radius:999px;padding:6px 14px;color:var(--vio2);
+  background:rgba(124,92,255,.07)}
+.dot{width:6px;height:6px;border-radius:50%;background:var(--vio);box-shadow:0 0 10px var(--vio)}
+.hbtns{display:flex;gap:11px;margin-top:28px;flex-wrap:wrap}
+
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);
+  border:1px solid var(--line);border-radius:10px;overflow:hidden;margin-top:46px}
+.stats div{background:var(--bg);padding:20px}
+.stats b{display:block;font-family:var(--mono);font-size:24px;font-weight:500;letter-spacing:-.02em}
+.stats b.v{color:var(--vio2)}
+.stats i{display:block;font-style:normal;font-family:var(--mono);font-size:10.5px;letter-spacing:.13em;
+  text-transform:uppercase;color:var(--dim2);margin-top:7px}
+
+/* ---------- the batch board ---------- */
+.bhead{display:flex;justify-content:space-between;align-items:flex-end;gap:20px;flex-wrap:wrap;margin-top:34px}
+#clock{font-family:var(--mono);font-size:13px;color:var(--dim);text-align:right}
+#clock b{display:block;font-size:30px;color:var(--ink);font-weight:500;letter-spacing:-.02em;margin-top:5px}
+
+#board{margin-top:22px;border:1px solid var(--line);border-radius:10px;overflow:hidden;background:var(--panel)}
+.brow{display:grid;grid-template-columns:1.25fr 108px 104px 92px 1fr 124px;gap:16px;align-items:center;
+  padding:15px 20px;border-bottom:1px solid var(--line);transition:background .2s,opacity .35s}
+.brow:last-child{border-bottom:0}
+.bhd{display:grid;grid-template-columns:1.25fr 108px 104px 92px 1fr 124px;gap:16px;padding:12px 20px;
+  border-bottom:1px solid var(--line);background:var(--panel2);font-family:var(--mono);font-size:10.5px;
+  letter-spacing:.13em;text-transform:uppercase;color:var(--dim2)}
+.brow .tick{font-weight:600;font-size:15.5px;letter-spacing:-.01em}
+.brow .tick small{display:block;font-weight:400;font-size:11.5px;color:var(--dim2);font-family:var(--mono);
+  letter-spacing:0;margin-top:2px}
+.brow .num{font-family:var(--mono);font-size:13.5px}
+.brow .num.bad{color:var(--red)}
+.days{display:flex;gap:4px}
+.days i{flex:1;height:9px;background:#161a24;border-radius:2px}
+.days i.on{background:var(--vio);box-shadow:0 0 8px rgba(124,92,255,.5)}
+.days i.dead{background:#3a1f28}
+.st{font-family:var(--mono);font-size:10.5px;letter-spacing:.09em;text-transform:uppercase;text-align:center;
+  padding:6px 8px;border-radius:999px;border:1px solid var(--line);color:var(--dim);white-space:nowrap}
+.st.run{color:var(--vio2);border-color:var(--vioDim);background:rgba(124,92,255,.08)}
+.st.risk{color:var(--amber);border-color:#4a3a1a}
+.st.cut{color:var(--red);border-color:#4a2222}
+.st.acc{color:#06070a;background:var(--vio);border-color:var(--vio);font-weight:600}
+.brow.dying{background:rgba(255,95,95,.07)}
+.brow.gone{opacity:.42}
+.brow.hit{animation:hit .8s ease-out}
+@keyframes hit{0%{background:rgba(124,92,255,.22)}100%{background:transparent}}
+
+#cutpile{margin-top:18px;border:1px dashed var(--line);border-radius:10px;padding:16px 20px;
+  font-family:var(--mono);font-size:12.5px;color:var(--dim2);line-height:1.9}
+#cutpile b{color:var(--dim);font-weight:500}
+#cutpile span{color:var(--red)}
+#cutpile .none{color:var(--dim2)}
+
+/* accepted stamp */
+#stamp{position:fixed;left:50%;top:50%;z-index:90;width:300px;transform:translate(-50%,-50%) scale(2.1);
+  opacity:0;pointer-events:none}
+#stamp.on{animation:slam .95s cubic-bezier(.15,1.5,.4,1) forwards}
+#stamp .lbl{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%) rotate(-9deg);
+  font-family:var(--mono);font-weight:600;font-size:22px;letter-spacing:.16em;color:#fff;
+  text-shadow:0 2px 20px rgba(0,0,0,.8);white-space:nowrap}
+@keyframes slam{0%{opacity:0;transform:translate(-50%,-50%) scale(2.1) rotate(-14deg)}
+  22%{opacity:1;transform:translate(-50%,-50%) scale(1) rotate(-9deg)}
+  76%{opacity:1;transform:translate(-50%,-50%) scale(1) rotate(-9deg)}
+  100%{opacity:0;transform:translate(-50%,-50%) scale(1.06) rotate(-9deg)}}
+
+/* ---------- launch ---------- */
+.split{display:grid;grid-template-columns:1.05fr .95fr;gap:34px;margin-top:38px;align-items:start}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:26px}
+label{display:block;font-family:var(--mono);font-size:10.5px;letter-spacing:.13em;text-transform:uppercase;
+  color:var(--dim2);margin:0 0 8px}
+.f{margin-bottom:20px}
+input{width:100%;background:var(--bg);border:1px solid var(--line);border-radius:7px;color:var(--ink);
+  font-family:var(--mono);font-size:15px;padding:13px 14px;outline:0}
+input:focus{border-color:var(--vio)}
+.hint{font-family:var(--mono);font-size:11px;color:var(--dim2);margin-top:7px}
+.big{width:100%;background:var(--vio);color:#fff;border:0;border-radius:8px;
+  font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:15.5px;padding:15px;cursor:pointer}
+.big:disabled{background:var(--panel2);color:var(--dim2);cursor:not-allowed}
+.big.rel{background:transparent;color:var(--ink);border:1px solid var(--line)}
+
+#ticket{position:sticky;top:90px;background:var(--panel);border:1px solid var(--line);border-radius:10px;
+  overflow:hidden}
+.tk-h{padding:16px 22px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;
+  align-items:center;font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--dim2)}
+.tk-h b{color:var(--vio2);font-weight:500}
+.tk-top{padding:22px;border-bottom:1px solid var(--line)}
+.tk-top .bn{font-size:30px;font-weight:700;letter-spacing:-.03em;line-height:1}
+.tk-top .sub{font-family:var(--mono);font-size:12.5px;color:var(--vio2);margin-top:8px}
+.kv{display:flex;justify-content:space-between;gap:16px;padding:12px 22px;border-bottom:1px solid var(--line);
+  font-size:14px}
+.kv span{color:var(--dim)}
+.kv b{font-family:var(--mono);font-weight:500;text-align:right}
+.kv b.v{color:var(--vio2)}
+#log{font-family:var(--mono);font-size:11.5px;line-height:1.9;color:var(--dim);padding:16px 22px;
+  border-top:1px solid var(--line);min-height:42px}
+#log .ok{color:var(--vio2)}
+
+/* ---------- bar / cheque ---------- */
+.bars{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-top:38px}
+.barc{background:var(--panel);border:1px solid var(--line);border-top:2px solid var(--vio);
+  border-radius:0 0 10px 10px;padding:22px}
+.barc .n{font-family:var(--mono);font-size:11px;letter-spacing:.14em;color:var(--dim2);margin-bottom:12px}
+.barc .big-n{font-family:var(--mono);font-size:26px;font-weight:500;letter-spacing:-.02em;margin-bottom:8px}
+.barc p{margin:0;color:var(--dim);font-size:13.5px;line-height:1.6}
+
+.cheque{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--line);border:1px solid var(--line);
+  border-radius:10px;overflow:hidden;margin-top:38px}
+.cheque > div{background:var(--panel);padding:30px}
+.cheque .lab{font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--dim2);margin-bottom:12px}
+.cheque .amt{font-family:var(--mono);font-size:clamp(30px,4vw,46px);font-weight:500;letter-spacing:-.03em}
+.cheque .amt.v{color:var(--vio2)}
+.cheque p{color:var(--dim);font-size:13.5px;margin:14px 0 0}
+
+table.rules{width:100%;border-collapse:collapse;margin-top:34px;border:1px solid var(--line);border-radius:10px;
+  overflow:hidden}
+table.rules td{padding:15px 20px;border-bottom:1px solid var(--line);vertical-align:top;font-size:14.5px}
+table.rules tr:last-child td{border-bottom:0}
+table.rules td:first-child{width:38%;color:var(--dim);font-family:var(--mono);font-size:12.5px;
+  letter-spacing:.06em;text-transform:uppercase;background:var(--panel)}
+
+/* ---------- $BATCH ---------- */
+.splitbar{display:flex;height:44px;border:1px solid var(--line);border-radius:8px;overflow:hidden;margin-top:26px}
+.splitbar div{display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:11.5px}
+.splitbar .a{background:var(--vio);color:#fff}
+.splitbar .b{background:var(--panel);color:var(--dim)}
+#ca{display:flex;align-items:center;gap:12px;background:var(--panel);border:1px solid var(--line);
+  border-radius:8px;padding:14px 18px;margin-top:26px;flex-wrap:wrap}
+#ca code{font-family:var(--mono);font-size:13px;color:var(--vio2);word-break:break-all;flex:1;min-width:180px}
+#ca button{background:transparent;border:1px solid var(--line);border-radius:6px;color:var(--ink);
+  font-family:var(--mono);font-size:11.5px;letter-spacing:.1em;padding:9px 14px;cursor:pointer;
+  text-transform:uppercase}
+.cbtns{display:flex;gap:11px;margin-top:22px;flex-wrap:wrap}
+
+/* ---------- faq ---------- */
+.faq{margin-top:34px;border:1px solid var(--line);border-radius:10px;overflow:hidden}
+.q{width:100%;background:var(--panel);border:0;border-bottom:1px solid var(--line);color:var(--ink);
+  font-family:'Space Grotesk',sans-serif;font-size:15.5px;font-weight:500;text-align:left;padding:18px 22px;
+  cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:16px}
+.q:last-of-type{border-bottom:0}
+.q em{font-style:normal;font-family:var(--mono);font-size:16px;color:var(--vio2);flex:none}
+.a{display:none;padding:0 22px 20px;color:var(--dim);font-size:14.5px;line-height:1.7;background:var(--panel);
+  border-bottom:1px solid var(--line)}
+.a.on{display:block}
+
+footer{border-top:1px solid var(--line);padding:46px 0 60px;color:var(--dim2);font-size:13px;line-height:1.75}
+footer .fr{display:flex;justify-content:space-between;gap:24px;flex-wrap:wrap;align-items:flex-start}
+footer a{color:var(--dim);text-decoration:none}
+
+#toast{position:fixed;left:50%;bottom:28px;transform:translateX(-50%) translateY(14px);z-index:95;
+  background:var(--vio);color:#fff;font-size:14px;font-weight:500;padding:12px 20px;border-radius:999px;
+  opacity:0;transition:.22s;pointer-events:none;white-space:nowrap}
+#toast.on{opacity:1;transform:translateX(-50%) translateY(0)}
+
+@media(max-width:1000px){
+  #hero .row{grid-template-columns:1fr}
+  #seal{order:-1;justify-self:center}
+  #seal img{width:min(240px,60%)}
+  .split{grid-template-columns:1fr}
+  #ticket{position:static}
+  .bars{grid-template-columns:repeat(2,1fr)}
+  .stats{grid-template-columns:repeat(2,1fr)}
+  .cheque{grid-template-columns:1fr}
+  #nav a.l{display:none}
+}
+@media(max-width:760px){
+  .wrap{width:calc(100% - 32px)}
+  section{padding:64px 0}
+  .bhd{display:none}
+  .brow{grid-template-columns:1fr auto;gap:10px 14px;padding:16px}
+  .brow .tick{grid-column:1;grid-row:1}
+  .brow .st{grid-column:2;grid-row:1}
+  .brow .m1{grid-column:1/-1;font-size:12px;color:var(--dim)}
+  .brow .m1:before{content:"mcap ";color:var(--dim2)}
+  .brow .m2,.brow .m3{display:none}
+  .brow .days{grid-column:1/-1}
+  .bars{grid-template-columns:1fr}
+  table.rules td{display:block;width:100%}
+  table.rules td:first-child{width:100%;border-bottom:0}
+  #clock{text-align:left}
+}
+</style>
+</head>
+<body>
+<div id="glow"></div>
+<div class="shell">
+
+<nav id="nav"><div class="wrap">
+  <a class="brand" href="#top"><img src="mark.png" alt=""><span>BatchPad</span></a>
+  <span class="sp"></span>
+  <a class="l" href="#batch">The batch</a>
+  <a class="l" href="#launch">Launch</a>
+  <a class="l" href="#bar">The bar</a>
+  <a class="l" href="#cheque">The cheque</a>
+  <a class="pill ghost x-link" href="#" target="_blank" rel="noopener">X</a>
+  <a class="pill buy-link" href="#" target="_blank" rel="noopener">Buy $<span class="tk">BATCH</span></a>
+</div></nav>
+
+<header id="hero" class="wrap"><div class="row">
+  <div>
+    <span class="tagpill"><i class="dot"></i> <span id="pill-txt">Batch #14 · closes in —</span></span>
+    <h1>Survive seven days.<br>We buy your coin.</h1>
+    <p class="lead">Every coin launched on BatchPad is in the current batch from the second it goes live.
+      No application, no pitch, no interview. Hold the floor for the whole week and you're
+      <b style="color:var(--vio2);font-weight:500">accepted</b> — the pad spends its entire fee pot buying you
+      on the open market and locks it for <span class="lock-n">90</span> days. Miss any of it and you're cut.</p>
+    <div class="hbtns">
+      <a class="pill" href="#launch">Enter the batch</a>
+      <a class="pill ghost" href="#bar">See the bar</a>
+    </div>
+  </div>
+  <div id="seal"><img src="mark.png" alt="BatchPad"></div>
+</div>
+
+<div class="stats">
+  <div><b id="s-in">—</b><i>in the running</i></div>
+  <div><b id="s-cut">—</b><i>cut this batch</i></div>
+  <div><b id="s-acc" class="v">—</b><i>accepted</i></div>
+  <div><b id="s-pot" class="v">—</b><i>pot this batch</i></div>
+</div>
+</header>
+
+<section id="batch"><div class="wrap">
+  <span class="kick">01 — The batch</span>
+  <div class="bhead">
+    <div>
+      <h2>Batch #<span class="bn-n">14</span> is open.</h2>
+      <p class="lead">Seven segments, one per day survived. Lose the floor, the volume or the holders and the
+        row goes red and drops to the pile. Nobody gets a second look.</p>
+    </div>
+    <div id="clock">closes in<b id="cd">—</b></div>
+  </div>
+
+  <div id="board">
+    <div class="bhd">
+      <div>Coin</div><div>Mcap</div><div>Vol 24h</div><div>Holders</div><div>Days survived</div><div>Status</div>
+    </div>
+    <div id="rows"></div>
+  </div>
+
+  <div id="cutpile"><b>Cut pile —</b> <span id="cuts">nobody yet.</span></div>
+</div></section>
+
+<section id="launch"><div class="wrap">
+  <span class="kick">02 — Enter the batch</span>
+  <h2>Launching is the application.</h2>
+  <p class="lead">There is no form to fill in beyond a name. The clock starts the moment the coin is live.</p>
+
+  <div class="split">
+    <div class="card">
+      <div class="f">
+        <label for="i-name">Coin name</label>
+        <input type="text" id="i-name" placeholder="Nightshift" maxlength="24">
+      </div>
+      <div class="f">
+        <label for="i-tick">Ticker</label>
+        <input type="text" id="i-tick" placeholder="NIGHT" maxlength="10">
+        <div class="hint">Letters only.</div>
+      </div>
+      <div class="f">
+        <label for="i-buy">First buy (SOL)</label>
+        <input type="number" id="i-buy" value="2" min="0" step="0.1">
+        <div class="hint">Your own bag. It does not buy you a place in the batch — everyone is in.</div>
+      </div>
+      <button class="big" id="go">Enter batch #<span class="bn-n">14</span></button>
+      <div class="hint" style="margin-top:12px">This page is a preview. Nothing here signs a transaction.</div>
+    </div>
+
+    <div id="ticket">
+      <div class="tk-h"><span>Your entry</span><span id="tk-state">not entered</span></div>
+      <div class="tk-top">
+        <div class="bn" id="tk-coin">Batch #<span class="bn-n">14</span></div>
+        <div class="sub" id="tk-sub">closes in — · every coin enters automatically</div>
+      </div>
+      <div class="kv"><span>Floor you must hold</span><b class="v floor-n">$50,000</b></div>
+      <div class="kv"><span>Minimum 24h volume</span><b class="vol-n">$25,000</b></div>
+      <div class="kv"><span>Minimum holders</span><b class="hold-n">150</b></div>
+      <div class="kv"><span>Dev may sell</span><b style="color:var(--red)">never</b></div>
+      <div class="kv"><span>Days to survive</span><b class="days-n">7</b></div>
+      <div class="kv"><span>If you're accepted</span><b class="v" id="tk-chq">—</b></div>
+      <div id="log">waiting for a name.</div>
+    </div>
+  </div>
+</div></section>
+
+<section id="bar"><div class="wrap">
+  <span class="kick">03 — The bar</span>
+  <h2>Four numbers. Checked every hour.</h2>
+  <div class="bars">
+    <div class="barc"><div class="n">01 — FLOOR</div><div class="big-n floor-n">$50,000</div>
+      <p>Market cap must never close an hour below this. One hour under and the row goes amber.
+        Two and you're cut.</p></div>
+    <div class="barc"><div class="n">02 — VOLUME</div><div class="big-n vol-n">$25,000</div>
+      <p>Rolling 24h volume. A coin nobody trades is not surviving, it is just sitting there.</p></div>
+    <div class="barc"><div class="n">03 — HOLDERS</div><div class="big-n hold-n">150</div>
+      <p>Holder count may go up. It may sit still. It may not fall below the line at any point in the week.</p></div>
+    <div class="barc"><div class="n">04 — THE DEV</div><div class="big-n">0</div>
+      <p>Tokens the creator may sell during the batch. One transaction and the row goes red before the
+        page refreshes.</p></div>
+  </div>
+</div></section>
+
+<section id="cheque"><div class="wrap">
+  <span class="kick">04 — The cheque</span>
+  <h2>Everything the pad earned goes back in.</h2>
+  <p class="lead">BatchPad keeps the creator fees from every coin launched this week. On Sunday at 00:00 UTC
+    the batch closes, the survivors are counted, and <span class="split-n">80%</span> of the pot is spent buying
+    them on the open market. The buys lock for <span class="lock-n">90</span> days, same as everyone else's.</p>
+
+  <div class="cheque">
+    <div>
+      <div class="lab">Pot this batch</div>
+      <div class="amt" id="pot-amt">$38,400</div>
+      <p>Collected from creator fees since the batch opened. It only goes up.</p>
+    </div>
+    <div>
+      <div class="lab">Per accepted coin, right now</div>
+      <div class="amt v" id="per-amt">—</div>
+      <p>Split evenly between the survivors. Fewer survivors, bigger cheque — which is the point.</p>
+    </div>
+  </div>
+</div></section>
+
+<section id="rules"><div class="wrap">
+  <span class="kick">05 — The rules</span>
+  <h2>No exceptions, including for us.</h2>
+  <table class="rules">
+    <tr><td>Who is in the batch</td><td>Every coin launched on the pad that week. Automatically, from block one.</td></tr>
+    <tr><td>Batch length</td><td><span class="days-n">7</span> days, closing Sunday 00:00 UTC.</td></tr>
+    <tr><td>The bar</td><td>Floor <span class="floor-n">$50,000</span>, volume <span class="vol-n">$25,000</span>, holders <span class="hold-n">150</span>, dev sells nothing.</td></tr>
+    <tr><td>Checks</td><td>Hourly. Two consecutive failures on any line is a cut.</td></tr>
+    <tr><td>Appeals</td><td>None. There is nobody to email.</td></tr>
+    <tr><td>The cheque</td><td><span class="split-n">80%</span> of the pot, split evenly between the accepted coins, bought at market.</td></tr>
+    <tr><td>Lock</td><td><span class="lock-n">90</span> days, on-chain, no early exit for the pad.</td></tr>
+    <tr><td>Cut coins</td><td>Keep trading. They just never get bought, and they cannot re-enter a later batch.</td></tr>
+  </table>
+</div></section>
+
+<section id="cow"><div class="wrap">
+  <span class="kick">06 — $<span class="tk">BATCH</span></span>
+  <h2>The pad's own coin.</h2>
+  <p class="lead">$<span class="tk">BATCH</span> never enters a batch and never gets a cheque. It takes the
+    other <span class="rest-n">20%</span> — the share that does not go into the survivors — and that buys
+    $<span class="tk">BATCH</span> back.</p>
+
+  <div class="splitbar">
+    <div class="a" id="bar-a">80% — into the accepted coins</div>
+    <div class="b" id="bar-b">20% — buys $BATCH</div>
+  </div>
+
+  <div id="ca"><code id="ca-t">CA — dropping at launch</code><button id="cp">Copy</button></div>
+  <div class="cbtns">
+    <a class="pill buy-link" href="#" target="_blank" rel="noopener">Buy $<span class="tk">BATCH</span></a>
+    <a class="pill ghost chart-link" href="#" target="_blank" rel="noopener">Chart</a>
+    <a class="pill ghost x-link" href="#" target="_blank" rel="noopener">X</a>
+  </div>
+</div></section>
+
+<section id="faq"><div class="wrap">
+  <span class="kick">07 — FAQ</span>
+  <h2>Questions people actually ask.</h2>
+  <div class="faq" id="faqbox">
+    <button class="q"><span>Can I apply?</span><em>+</em></button>
+    <div class="a">No, and that is the feature. Launching is the application and the chart is the interview.
+      There is no partner to charm and no deck to write.</div>
+
+    <button class="q"><span>What stops the pad picking its friends?</span><em>+</em></button>
+    <div class="a">The bar is four numbers checked by a script on the hour. Nobody is reading your replies.
+      A coin that clears the numbers is accepted whether anyone likes it or not.</div>
+
+    <button class="q"><span>What if only one coin survives?</span><em>+</em></button>
+    <div class="a">It gets the whole cheque. That has happened. If none survive, the pot rolls into next week
+      and the next batch is fighting over double.</div>
+
+    <button class="q"><span>Why lock the buy for <span class="lock-n">90</span> days?</span><em>+</em></button>
+    <div class="a">Because a buy you can dump on Tuesday is not backing, it is a favour with extra steps.</div>
+
+    <button class="q"><span>Can a cut coin try again next batch?</span><em>+</em></button>
+    <div class="a">No. One batch per coin, ever. You get the seven days you get.</div>
+
+    <button class="q"><span>Does holding $<span class="tk">BATCH</span> get me in?</span><em>+</em></button>
+    <div class="a">Not one inch. It cannot buy a place, an extension or a soft check.</div>
+  </div>
+</div></section>
+
+<footer><div class="wrap fr">
+  <div><div style="color:var(--ink);font-weight:600;margin-bottom:8px">BatchPad</div>
+    Survive the batch. Get funded.</div>
+  <div><a class="x-link" href="#" target="_blank" rel="noopener">X</a></div>
+</div></footer>
+
+</div>
+<div id="stamp"><img src="mark.png" alt=""><div class="lbl">ACCEPTED</div></div>
+<div id="toast"></div>
+
+<script src="config.js"></script>
+<script>
+(function(){
+var C = window.BATCH_CFG || {};
+var TK = C.TICKER || 'BATCH', CA = (C.CA||'').trim();
+var BN = +C.BATCH_NO || 14, DAYS = +C.DAYS || 7;
+var FLOOR = +C.FLOOR || 50000, MINVOL = +C.MIN_VOL || 25000, MINHOLD = +C.MIN_HOLD || 150;
+var LOCK = +C.LOCK || 90, POT = +C.POT || 38400, SPLIT = +C.SPLIT || 80;
+
+function each(s,f){ Array.prototype.forEach.call(document.querySelectorAll(s), f); }
+function usd(n){ return '$' + Math.round(n).toLocaleString('en-US'); }
+function k(n){ return n >= 1000 ? '$' + (n/1000).toFixed(n >= 100000 ? 0 : 1) + 'K' : '$' + n; }
+
+each('.tk',function(e){e.textContent=TK});
+each('.bn-n',function(e){e.textContent=BN});
+each('.days-n',function(e){e.textContent=DAYS});
+each('.floor-n',function(e){e.textContent=usd(FLOOR)});
+each('.vol-n',function(e){e.textContent=usd(MINVOL)});
+each('.hold-n',function(e){e.textContent=MINHOLD});
+each('.lock-n',function(e){e.textContent=LOCK});
+each('.split-n',function(e){e.textContent=SPLIT+'%'});
+each('.rest-n',function(e){e.textContent=(100-SPLIT)+'%'});
+document.getElementById('pot-amt').textContent = usd(POT);
+document.getElementById('bar-a').style.flex = SPLIT;
+document.getElementById('bar-a').textContent = SPLIT + '% — into the accepted coins';
+document.getElementById('bar-b').style.flex = 100 - SPLIT;
+document.getElementById('bar-b').textContent = (100-SPLIT) + '% — buys $' + TK;
+
+/* links */
+var PADS = { pumpfun:function(c){return 'https://pump.fun/coin/'+c;},
+             stonkfun:function(c){return 'https://www.stonkfun.xyz/token/'+c;} };
+var buy = C.BUY || (CA ? (PADS[C.PAD]||PADS.pumpfun)(CA) : '');
+var chart = C.CHART || (CA ? 'https://dexscreener.com/' + (C.CHAIN||'solana') + '/' + CA : '');
+each('.buy-link',function(e){ if(buy) e.href=buy; else { e.removeAttribute('target'); e.href='#cow'; } });
+each('.chart-link',function(e){ if(chart) e.href=chart; else { e.removeAttribute('target'); e.href='#cow'; } });
+each('.x-link',function(e){ if(C.X) e.href=C.X; else { e.removeAttribute('target'); e.href='#cow'; } });
+document.getElementById('ca-t').textContent = CA ? CA : 'CA — dropping at launch';
+document.getElementById('cp').addEventListener('click',function(){
+  if(!CA){ toast('No CA yet.'); return; }
+  try{ navigator.clipboard.writeText(CA); }catch(e){}
+  toast('Copied.');
+});
+
+/* ---------- the board ---------- */
+var COINS = [
+  {t:'NIGHTSHIFT', n:'Nightshift',   mc:184000, v:96000, h:612, d:6, s:'run'},
+  {t:'TOLLBOOTH',  n:'Tollbooth',    mc: 91000, v:41000, h:288, d:6, s:'run'},
+  {t:'GRANITE',    n:'Granite',      mc: 58000, v:27500, h:171, d:5, s:'risk'},
+  {t:'MOTH',       n:'Moth',         mc:142000, v:73000, h:455, d:5, s:'run'},
+  {t:'LANDLINE',   n:'Landline',     mc: 62000, v:26100, h:163, d:4, s:'run'},
+  {t:'BRINE',      n:'Brine',        mc: 51500, v:19400, h:152, d:4, s:'risk'},
+  {t:'DRYWALL',    n:'Drywall',      mc:118000, v:58000, h:390, d:3, s:'run'},
+  {t:'PELICAN',    n:'Pelican',      mc: 74000, v:33000, h:224, d:2, s:'run'},
+  {t:'SIXTEEN',    n:'Sixteen',      mc: 55000, v:25900, h:158, d:1, s:'risk'},
+  {t:'HALLWAY',    n:'Hallway',      mc: 88000, v:44000, h:266, d:1, s:'run'}
+];
+var CUTS = [];
+var rowsEl = document.getElementById('rows');
+
+function stText(s){
+  return s==='run' ? 'running' : s==='risk' ? 'at risk' : s==='cut' ? 'cut' : 'accepted';
+}
+function render(){
+  rowsEl.innerHTML = '';
+  COINS.forEach(function(c,i){
+    var d = document.createElement('div');
+    d.className = 'brow' + (c.s==='cut' ? ' gone' : '');
+    d.dataset.i = i;
+    var seg = '';
+    for(var j=0;j<DAYS;j++){
+      seg += '<i class="' + (j < c.d ? (c.s==='cut' ? 'dead' : 'on') : '') + '"></i>';
+    }
+    d.innerHTML =
+      '<div class="tick">$' + c.t + '<small>' + c.n + '</small></div>' +
+      '<div class="num m1' + (c.mc < FLOOR ? ' bad' : '') + '">' + k(c.mc) + '</div>' +
+      '<div class="num m2' + (c.v < MINVOL ? ' bad' : '') + '">' + k(c.v) + '</div>' +
+      '<div class="num m3' + (c.h < MINHOLD ? ' bad' : '') + '">' + c.h + '</div>' +
+      '<div class="days">' + seg + '</div>' +
+      '<div class="st ' + c.s + '">' + stText(c.s) + '</div>';
+    rowsEl.appendChild(d);
+  });
+  counters();
+}
+function counters(){
+  var inr = COINS.filter(function(c){return c.s==='run'||c.s==='risk';}).length;
+  var acc = COINS.filter(function(c){return c.s==='acc';}).length;
+  document.getElementById('s-in').textContent = inr;
+  document.getElementById('s-cut').textContent = CUTS.length;
+  document.getElementById('s-acc').textContent = acc;
+  document.getElementById('s-pot').textContent = usd(POT);
+  document.getElementById('cuts').innerHTML = CUTS.length
+    ? CUTS.map(function(c){ return '$' + c.t + ' <span>(' + c.why + ')</span>'; }).join(' &nbsp;·&nbsp; ')
+    : '<span class="none">nobody yet.</span>';
+  var per = acc ? POT * (SPLIT/100) / acc : POT * (SPLIT/100);
+  document.getElementById('per-amt').textContent = acc ? usd(per) : usd(POT*(SPLIT/100)) + ' if one';
+  document.getElementById('tk-chq').textContent = usd(per) + ' at today’s pot';
+}
+render();
+
+var WHY = ['lost the floor','volume dried up','holders fell through','dev sold'];
+setInterval(function(){
+  var live = COINS.filter(function(c){ return c.s==='run'||c.s==='risk'; });
+  if(!live.length) return;
+  var c = live[Math.floor(Math.random()*live.length)];
+  var i = COINS.indexOf(c);
+  var el = rowsEl.querySelector('[data-i="' + i + '"]');
+
+  if(c.s === 'risk' && Math.random() < .55){
+    c.s = 'cut';
+    c.why = WHY[Math.floor(Math.random()*WHY.length)];
+    CUTS.unshift({t:c.t, why:c.why});
+    if(CUTS.length > 6) CUTS.pop();
+    if(el){ el.classList.add('dying'); }
+    setTimeout(function(){ render(); toast('$' + c.t + ' cut — ' + c.why + '.'); }, 700);
+    return;
+  }
+  if(c.d >= DAYS - 1 && c.s === 'run' && Math.random() < .5){
+    c.d = DAYS; c.s = 'acc';
+    render();
+    stamp();
+    toast('$' + c.t + ' accepted. The pad is buying.');
+    return;
+  }
+  if(Math.random() < .5){ c.s = c.s === 'run' ? 'risk' : 'run'; }
+  else { c.mc = Math.max(20000, Math.round(c.mc * (0.88 + Math.random()*0.3))); }
+  render();
+  if(el) el.classList.add('hit');
+}, 4200);
+
+var st = document.getElementById('stamp');
+function stamp(){ st.classList.remove('on'); void st.offsetWidth; st.classList.add('on'); }
+
+/* ---------- countdown ---------- */
+function nextClose(){
+  var d = new Date();
+  var days = (7 - d.getUTCDay()) % 7;
+  var t = new Date(Date.UTC(d.getUTCFullYear(), d.getUTCMonth(), d.getUTCDate() + days, 0, 0, 0));
+  if(t <= d) t = new Date(t.getTime() + 7*864e5);
+  return t;
+}
+var CLOSE = nextClose();
+function tick(){
+  var ms = CLOSE - new Date();
+  if(ms < 0){ CLOSE = nextClose(); ms = CLOSE - new Date(); }
+  var s = Math.floor(ms/1000), dd = Math.floor(s/86400), hh = Math.floor(s%86400/3600),
+      mm = Math.floor(s%3600/60), ss = s%60;
+  var txt = dd + 'd ' + String(hh).padStart(2,'0') + ':' + String(mm).padStart(2,'0') + ':' + String(ss).padStart(2,'0');
+  document.getElementById('cd').textContent = txt;
+  document.getElementById('pill-txt').textContent = 'Batch #' + BN + ' · closes in ' + dd + 'd ' + hh + 'h';
+  var sub = document.getElementById('tk-sub');
+  if(!entered) sub.textContent = 'closes in ' + txt + ' · every coin enters automatically';
+}
+tick(); setInterval(tick, 1000);
+
+/* ---------- entry form ---------- */
+var iName = document.getElementById('i-name'), iTick = document.getElementById('i-tick'),
+    iBuy = document.getElementById('i-buy'), go = document.getElementById('go'), entered = false;
+
+function recalc(){
+  var nm = (iName.value||'').trim();
+  var tk = (iTick.value||'').replace(/[^a-zA-Z]/g,'').toUpperCase();
+  if(tk !== iTick.value) iTick.value = tk;
+  if(!entered){
+    document.getElementById('tk-coin').innerHTML = nm ? (nm + (tk ? ' <span style="color:var(--dim2)">$'+tk+'</span>' : '')) : 'Batch #' + BN;
+  }
+  go.disabled = !(nm && tk) || entered;
+}
+[iName,iTick,iBuy].forEach(function(e){ e.addEventListener('input', recalc); });
+
+var STEPS = [
+  'minting TICKER…',
+  'revoking mint authority…',
+  'registering TICKER in batch #BN…',
+  'floor check armed at FLOOR…',
+  'volume check armed at VOL…',
+  'holder check armed at HOLD…',
+  'dev wallet flagged. any sale ends the run.',
+  'you are in. seven days.'
+];
+function logLine(t, ok){
+  var l = document.getElementById('log');
+  l.innerHTML += (l.innerHTML ? '<br>' : '') + '<span class="' + (ok?'ok':'') + '">' + t + '</span>';
+}
+
+go.addEventListener('click', function(){
+  if(entered){
+    entered = false; go.textContent = 'Enter batch #' + BN; go.classList.remove('rel');
+    document.getElementById('tk-state').textContent = 'not entered';
+    document.getElementById('log').innerHTML = 'waiting for a name.';
+    recalc(); return;
+  }
+  var tk = iTick.value;
+  entered = true; go.disabled = true;
+  document.getElementById('tk-state').textContent = 'entering…';
+  document.getElementById('log').innerHTML = '';
+  document.getElementById('tk-sub').textContent = 'day 0 of ' + DAYS + ' · nothing survived yet';
+  var i = 0;
+  (function next(){
+    if(i >= STEPS.length){
+      document.getElementById('tk-state').textContent = 'in the batch';
+      go.disabled = false; go.textContent = 'Withdraw the entry'; go.classList.add('rel');
+      toast('$' + tk + ' is in batch #' + BN + '.');
+      return;
+    }
+    logLine(STEPS[i].replace('TICKER','$'+tk).replace('BN',BN)
+      .replace('FLOOR',usd(FLOOR)).replace('VOL',usd(MINVOL)).replace('HOLD',MINHOLD),
+      i === STEPS.length-1);
+    i++; setTimeout(next, 380 + Math.random()*240);
+  })();
+});
+
+/* ---------- faq ---------- */
+each('#faqbox .q', function(b){
+  b.addEventListener('click', function(){
+    var a = b.nextElementSibling, on = a.classList.contains('on');
+    each('#faqbox .a', function(x){ x.classList.remove('on'); });
+    each('#faqbox .q em', function(x){ x.textContent = '+'; });
+    if(!on){ a.classList.add('on'); b.querySelector('em').textContent = '−'; }
+  });
+});
+
+/* ---------- toast ---------- */
+var to = document.getElementById('toast'), tt;
+function toast(m){
+  to.textContent = m; to.classList.add('on');
+  clearTimeout(tt); tt = setTimeout(function(){ to.classList.remove('on'); }, 2600);
+}
+
+recalc();
+})();
+</script>
+</body>
+</html>
